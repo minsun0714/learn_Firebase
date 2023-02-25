@@ -1,25 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+
+const BtnWrapper = styled.div`
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Btn = styled.button`
+  background-color: black;
+  border: none;
+  color: white;
+  border-radius: 10px;
+  width: 370px;
+  height: 6vh;
+  margin: 5px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+`;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BtnWrapper className='App'>
+      <Link
+        to={{
+          pathname: `/mypage`,
+        }}
+      >
+        <Btn>Login</Btn>
+      </Link>
+
+      <Link
+        to={{
+          pathname: `/sign-up`,
+        }}
+      >
+        <Btn>Sign-up</Btn>
+      </Link>
+    </BtnWrapper>
   );
 }
 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "./service/firebase";
+import auth from "./service/firebase";
 const BtnWrapper = styled.div`
   height: 100vh;
   display: flex;
@@ -12,11 +12,11 @@ const BtnWrapper = styled.div`
 `;
 
 const Btn = styled.button`
-  background-color: violet;
+  background-color: blue;
   border: none;
   color: white;
-  border-radius: 15px;
-  width: 370px;
+  border-radius: 25px;
+  width: 300px;
   height: 6vh;
   margin: 5px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -40,8 +40,8 @@ function App() {
 
   return (
     <BtnWrapper className='App'>
-      <Btn onClick={handleGoogleLogin}>Google Login</Btn>
       {userData ? `${userData.displayName}님 환영합니다~` : null}
+      <Btn onClick={handleGoogleLogin}>Google Login</Btn>
 
       {/* <Link
         to={{

@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import auth from "./service/firebase";
 
 const BtnWrapper = styled.div`
   height: 100vh;
@@ -23,23 +25,29 @@ const Btn = styled.button`
 `;
 
 function MyPage() {
+  const history = useHistory();
+  const handleGoogleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        history.push("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
-    <BtnWrapper className='MyPage'>
-      <Link
-        to={{
-          pathname: `/`,
-        }}
-      >
-        <Btn>Log-Out</Btn>
-      </Link>
-      <Link
-        to={{
-          pathname: `/`,
-        }}
-      >
-        <Btn>withdraw</Btn>
-      </Link>
-    </BtnWrapper>
+    <>
+      <BtnWrapper className='MyPage'>
+        <Btn onClick={handleGoogleLogout}>Log-Out</Btn>
+        <Link
+          to={{
+            pathname: `/`,
+          }}
+        >
+          <Btn>withdraw</Btn>
+        </Link>
+      </BtnWrapper>
+    </>
   );
 }
 

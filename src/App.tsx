@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  setPersistence,
+  browserSessionPersistence,
+} from "firebase/auth";
 import auth from "./service/firebase";
 const BtnWrapper = styled.div`
   height: 100vh;
@@ -24,18 +29,20 @@ const Btn = styled.button`
 
 function App() {
   const [userData, setUserData] = useState(null) as any;
+  const provider = new GoogleAuthProvider();
   const handleGoogleLogin = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        setUserData(result.user);
-        console.log(result);
-        const name = result.user.displayName;
-        console.log(name);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    setPersistence(auth, browserSessionPersistence).then(() => {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          setUserData(result.user);
+          console.log(result);
+          const name = result.user.displayName;
+          console.log(name);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
   };
 
   return (

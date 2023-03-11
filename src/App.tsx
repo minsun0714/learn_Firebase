@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   GoogleAuthProvider,
   signInWithPopup,
   setPersistence,
   browserSessionPersistence,
+  signOut,
 } from "firebase/auth";
 import auth from "./service/firebase";
 const BtnWrapper = styled.div`
@@ -28,6 +29,7 @@ const Btn = styled.button`
 `;
 
 function App() {
+  const history = useHistory();
   const [userData, setUserData] = useState(null) as any;
   const provider = new GoogleAuthProvider();
   const handleGoogleLogin = () => {
@@ -37,6 +39,7 @@ function App() {
           setUserData(result.user);
           console.log(result);
           const name = result.user.displayName;
+          history.push("/mypage");
           console.log(name);
         })
         .catch((error) => {

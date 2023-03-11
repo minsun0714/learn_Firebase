@@ -9,6 +9,35 @@ import {
   signOut,
 } from "firebase/auth";
 import auth from "./service/firebase";
+
+const LoginInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: -90px;
+`;
+
+const LoginForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 23vh;
+  margin-bottom: -20vh;
+`;
+
+const LoginInput = styled.input`
+  margin-top: 2vh;
+  padding: 2px 10px;
+  height: 30px;
+  width: 200px;
+  border-radius: 5px;
+  background-color: lightblue;
+  border: none;
+  box-shadow: 1px 1px 1px gray;
+`;
+
 const BtnWrapper = styled.div`
   height: 100vh;
   display: flex;
@@ -49,26 +78,34 @@ function App() {
   };
 
   return (
-    <BtnWrapper className='App'>
-      {userData ? `${userData.displayName}님 환영합니다~` : null}
-      <Btn onClick={handleGoogleLogin}>Google Login</Btn>
+    <>
+      <LoginInputWrapper>
+        <LoginForm>
+          <LoginInput placeholder='id' />
+          <LoginInput placeholder='password' />
+        </LoginForm>
+      </LoginInputWrapper>
+      <BtnWrapper className='App'>
+        {userData ? `${userData.displayName}님 환영합니다~` : null}
 
-      {/* <Link
-        to={{
-          pathname: `/mypage`,
-        }}
-      >
-        <Btn>Email Login</Btn>
-      </Link> */}
+        <Link
+          to={{
+            pathname: `/mypage`,
+          }}
+        >
+          <Btn>Email Login</Btn>
+        </Link>
 
-      {/* <Link
-        to={{
-          pathname: `/sign-up`,
-        }}
-      >
-        <Btn>Sign-up</Btn>
-      </Link> */}
-    </BtnWrapper>
+        <Link
+          to={{
+            pathname: `/sign-up`,
+          }}
+        >
+          <Btn>Sign-up</Btn>
+        </Link>
+        <Btn onClick={handleGoogleLogin}>Google Login</Btn>
+      </BtnWrapper>
+    </>
   );
 }
 

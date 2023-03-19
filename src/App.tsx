@@ -6,6 +6,8 @@ import {
   signInWithPopup,
   setPersistence,
   browserSessionPersistence,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
 import auth from "./service/firebase";
@@ -58,6 +60,38 @@ const Btn = styled.button`
 `;
 
 function App() {
+  // email 로그인을 위해 상태변수를 만듦
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [user, setUser] = useState({});
+  const onChangeLoginEmail = (event: any) => {
+    console.log(event.target.value);
+    setLoginEmail(event.target.value);
+  };
+  const onChangeLoginPassword = (event: any) => {
+    console.log(event.target.value);
+    setLoginPassword(event.target.value);
+  };
+
+  // 로그인 함수
+  const handleEmailLogin = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        loginEmail,
+        loginPassword
+      );
+      console.log(user);
+      onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser as any);
+      });
+      history.push("/mypage");
+    } catch (error) {
+      console.log(loginEmail);
+    }
+  };
+
+  // 구글 로그인
   const history = useHistory();
   const [userData, setUserData] = useState(null) as any;
   const provider = new GoogleAuthProvider();
@@ -72,7 +106,7 @@ function App() {
           console.log(name);
         })
         .catch((error) => {
-          console.log(error);
+          console.log(typeof error.message);
         });
     });
   };
@@ -81,20 +115,12 @@ function App() {
     <>
       <LoginInputWrapper>
         <LoginForm>
-          <LoginInput placeholder='id' />
-          <LoginInput placeholder='password' />
+          <LoginInput placeholder='email' onChange={onChangeLoginEmail} />
+          <LoginInput placeholder='password' onChange={onChangeLoginPassword} />
         </LoginForm>
       </LoginInputWrapper>
       <BtnWrapper className='App'>
-        {userData ? `${userData.displayName}님 환영합니다~` : null}
-
-        <Link
-          to={{
-            pathname: `/mypage`,
-          }}
-        >
-          <Btn>Email Login</Btn>
-        </Link>
+        <Btn onClick={handleEmailLogin}>Email Login</Btn>
 
         <Link
           to={{

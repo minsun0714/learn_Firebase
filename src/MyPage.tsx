@@ -12,6 +12,18 @@ const BtnWrapper = styled.div`
   align-items: center;
 `;
 
+const BtnPost = styled.button`
+  background-color: lightgreen;
+  border: none;
+  color: green;
+  border-radius: 10px;
+  width: 370px;
+
+  height: 10vh;
+  margin-top: -100px;
+  margin-bottom: 30px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+`;
 const Btn = styled.button`
   background-color: black;
   border: none;
@@ -45,6 +57,13 @@ function MyPage() {
   return (
     <>
       <BtnWrapper className='MyPage'>
+        <Link
+          to={{
+            pathname: `/mymemo`,
+          }}
+        >
+          <BtnPost>메모장</BtnPost>
+        </Link>
         <Btn onClick={handleGoogleLogout}>Log-Out</Btn>
         <Link
           to={{

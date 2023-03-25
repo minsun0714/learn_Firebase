@@ -10,7 +10,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import auth from "./service/firebase";
+import { auth } from "./service/firebase";
 
 const LoginInputWrapper = styled.div`
   display: flex;

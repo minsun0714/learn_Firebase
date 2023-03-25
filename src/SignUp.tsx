@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import auth from "./service/firebase";
+import { auth } from "./service/firebase";
 
 const SignUpInputWrapper = styled.div`
   display: flex;

@@ -2,14 +2,14 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import App from "./App";
 import Join from "./SignUp";
 import MyPage from "./MyPage";
-import MyMemo from "./Memo";
+import Memo from "./Memo";
 
 function Router() {
   return (
     <BrowserRouter>
       <Switch>
         <Route path='/mymemo'>
-          <MyMemo />
+          <Memo />
         </Route>
         <Route path='/mypage'>
           <MyPage />

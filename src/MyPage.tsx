@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
-import { signOut } from "firebase/auth";
+import { signOut, deleteUser } from "firebase/auth";
 import auth from "./service/firebase";
 
 const BtnWrapper = styled.div`
@@ -35,6 +35,13 @@ function MyPage() {
         console.log(error);
       });
   };
+
+  const handleWithdraw = () => {
+    const user = auth.currentUser;
+    deleteUser(user as any).then(() => {
+      console.log("계정이 삭제되었습니당");
+    });
+  };
   return (
     <>
       <BtnWrapper className='MyPage'>
@@ -44,7 +51,7 @@ function MyPage() {
             pathname: `/`,
           }}
         >
-          <Btn>withdraw</Btn>
+          <Btn onClick={handleWithdraw}>withdraw</Btn>
         </Link>
       </BtnWrapper>
     </>

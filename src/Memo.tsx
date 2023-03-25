@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Title = styled.h1`
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 `;
 
 const MemoContainer = styled.div`
@@ -12,6 +12,7 @@ const MemoContainer = styled.div`
 `;
 const MemoTextarea = styled.textarea`
   margin: 30px;
+  background-color: aliceblue;
 `;
 const BtnContainer = styled.div`
   display: flex;

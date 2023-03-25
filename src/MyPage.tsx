@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import { signOut, deleteUser } from "firebase/auth";
-import auth from "./service/firebase";
+import { auth } from "./service/firebase";
 
 const BtnWrapper = styled.div`
   height: 100vh;

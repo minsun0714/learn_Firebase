@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { collection, getDocs, doc } from "firebase/firestore";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db } from "./service/firebase";
 
 const Title = styled.h1`
@@ -49,6 +49,8 @@ interface IMemo {
 
 function Memo() {
   const [memos, setMemos] = useState<IMemo[]>([]);
+  const [newMemo, setNewMemo] = useState("");
+
   const handleGetMemo = async () => {
     let querySnapshot = await getDocs(collection(db, "learn_firebase"));
     const memoList: IMemo[] = [];
@@ -59,12 +61,28 @@ function Memo() {
     });
     setMemos(memoList);
   };
+
+  const handleSaveMemo = async () => {
+    if (newMemo === "") return;
+    const docRef = await addDoc(collection(db, "learn_firebase"), {
+      memo: newMemo,
+    });
+    console.log(docRef.id);
+    setNewMemo("");
+  };
+
   return (
     <MemoContainer>
       <Title>메모장</Title>
-      <MemoTextarea></MemoTextarea>
+      <MemoTextarea
+        value={newMemo}
+        onChange={(event) => {
+          console.log(event.target.value);
+          setNewMemo(event.target.value as any);
+        }}
+      ></MemoTextarea>
       <BtnContainer>
-        <Btn>save</Btn>
+        <Btn onClick={handleSaveMemo}>save</Btn>
         <Btn>delete</Btn>
       </BtnContainer>
       <MemoListBtn onClick={handleGetMemo}>나의 메모 보기</MemoListBtn>

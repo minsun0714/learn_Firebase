@@ -1,5 +1,6 @@
+import { useState } from "react";
 import styled from "styled-components";
-import { collection, getDocs, doc, QuerySnapshot } from "firebase/firestore";
+import { collection, getDocs, doc } from "firebase/firestore";
 import { db } from "./service/firebase";
 
 const Title = styled.h1`
@@ -41,15 +42,23 @@ const MemoListBtn = styled.button`
   height: 45px;
   width: 220px;
 `;
+interface IMemo {
+  id: string;
+  value: string;
+}
 
 function Memo() {
-  console.log(db);
-  async function handleGetMemo() {
+  const [memos, setMemos] = useState<IMemo[]>([]);
+  const handleGetMemo = async () => {
     let querySnapshot = await getDocs(collection(db, "learn_firebase"));
-    querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
+    const memoList: IMemo[] = [];
+    querySnapshot.docs.forEach((doc) => {
+      for (let key in doc.data()) {
+        memoList.push({ id: key, value: doc.data()[key] });
+      }
     });
-  }
+    setMemos(memoList);
+  };
   return (
     <MemoContainer>
       <Title>메모장</Title>
@@ -59,7 +68,11 @@ function Memo() {
         <Btn>delete</Btn>
       </BtnContainer>
       <MemoListBtn onClick={handleGetMemo}>나의 메모 보기</MemoListBtn>
-      {}
+      <ul>
+        {memos.map((memo) => {
+          return <li key={memo.id}>{memo.value}</li>;
+        })}
+      </ul>
     </MemoContainer>
   );
 }

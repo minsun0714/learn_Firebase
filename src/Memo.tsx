@@ -86,12 +86,15 @@ function Memo() {
 
   const handleSaveMemo = async () => {
     if (newMemo === "") return;
+    const now = new Date();
+    const timeElapsed = now.getTime();
     const docRef = await addDoc(collection(db, "learn_firebase"), {
-      memo: newMemo,
+      [timeElapsed]: newMemo,
     });
     console.log(docRef.id);
     setNewMemo("");
   };
+
   const handleDeleteMemo = async (docRef: DocumentReference<DocumentData>) => {
     await deleteDoc(docRef);
     setMemos(memos.filter((memo) => memo.docRef !== docRef));

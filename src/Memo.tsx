@@ -1,6 +1,13 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  DocumentReference,
+  DocumentData,
+  deleteDoc,
+} from "firebase/firestore";
 import { db } from "./service/firebase";
 
 const Title = styled.h1`
@@ -42,9 +49,24 @@ const MemoListBtn = styled.button`
   height: 45px;
   width: 220px;
 `;
+
+const MemoWrapper = styled.div`
+  display: flex;
+  margin: 5px;
+`;
+
+const DeleteBtn = styled.button`
+  background-color: gray;
+  border-radius: 7px;
+  color: white;
+  margin-top: -3px;
+  margin-left: auto;
+`;
+
 interface IMemo {
   id: string;
   value: string;
+  docRef: DocumentReference<DocumentData>;
 }
 
 function Memo() {
@@ -56,7 +78,7 @@ function Memo() {
     const memoList: IMemo[] = [];
     querySnapshot.docs.forEach((doc) => {
       for (let key in doc.data()) {
-        memoList.push({ id: key, value: doc.data()[key] });
+        memoList.push({ id: key, value: doc.data()[key], docRef: doc.ref });
       }
     });
     setMemos(memoList);
@@ -70,7 +92,10 @@ function Memo() {
     console.log(docRef.id);
     setNewMemo("");
   };
-
+  const handleDeleteMemo = async (docRef: DocumentReference<DocumentData>) => {
+    await deleteDoc(docRef);
+    setMemos(memos.filter((memo) => memo.docRef !== docRef));
+  };
   return (
     <MemoContainer>
       <Title>메모장</Title>
@@ -83,12 +108,18 @@ function Memo() {
       ></MemoTextarea>
       <BtnContainer>
         <Btn onClick={handleSaveMemo}>save</Btn>
-        <Btn>delete</Btn>
       </BtnContainer>
       <MemoListBtn onClick={handleGetMemo}>나의 메모 보기</MemoListBtn>
       <ul>
         {memos.map((memo) => {
-          return <li key={memo.id}>{memo.value}</li>;
+          return (
+            <MemoWrapper key={memo.id}>
+              <li>{memo.value}</li>
+              <DeleteBtn onClick={() => handleDeleteMemo(memo.docRef)}>
+                X
+              </DeleteBtn>
+            </MemoWrapper>
+          );
         })}
       </ul>
     </MemoContainer>

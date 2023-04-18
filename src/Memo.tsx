@@ -7,6 +7,7 @@ import {
   DocumentReference,
   DocumentData,
   deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "./service/firebase";
 
@@ -98,12 +99,23 @@ function Memo() {
       [timeElapsed]: newMemo,
     });
     console.log(docRef.id);
+    await handleGetMemo();
     setNewMemo("");
   };
 
   const handleDeleteMemo = async (docRef: DocumentReference<DocumentData>) => {
     await deleteDoc(docRef);
     setMemos(memos.filter((memo) => memo.docRef !== docRef));
+  };
+
+  const handleUpdateMemo = async (memo: IMemo) => {
+    if (newMemo === "") return;
+    const updateData = {
+      [memo.id]: newMemo,
+    };
+    await updateDoc(memo.docRef, updateData);
+    await handleGetMemo();
+    setNewMemo("");
   };
 
   return (
@@ -125,7 +137,7 @@ function Memo() {
           return (
             <MemoWrapper key={memo.id}>
               <li>{memo.value}</li>
-              <UpdateBtn>수정</UpdateBtn>
+              <UpdateBtn onClick={() => handleUpdateMemo(memo)}>수정</UpdateBtn>
               <DeleteBtn onClick={() => handleDeleteMemo(memo.docRef)}>
                 삭제
               </DeleteBtn>

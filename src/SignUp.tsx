@@ -90,7 +90,7 @@ function SignUp() {
       <BtnWrapper>
         <Link
           to={{
-            pathname: `/mypage`,
+            pathname: `/`,
           }}
         >
           <Btn onClick={handleRegister}>Create User</Btn>

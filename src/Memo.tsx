@@ -56,11 +56,17 @@ const MemoWrapper = styled.div`
 `;
 
 const DeleteBtn = styled.button`
-  background-color: gray;
+  background-color: tomato;
   border-radius: 7px;
   color: white;
   margin-top: -3px;
   margin-left: auto;
+  margin-right: auto;
+`;
+
+const UpdateBtn = styled(DeleteBtn)`
+  background-color: green;
+  margin: auto;
 `;
 
 interface IMemo {
@@ -99,6 +105,7 @@ function Memo() {
     await deleteDoc(docRef);
     setMemos(memos.filter((memo) => memo.docRef !== docRef));
   };
+
   return (
     <MemoContainer>
       <Title>메모장</Title>
@@ -118,8 +125,9 @@ function Memo() {
           return (
             <MemoWrapper key={memo.id}>
               <li>{memo.value}</li>
+              <UpdateBtn>수정</UpdateBtn>
               <DeleteBtn onClick={() => handleDeleteMemo(memo.docRef)}>
-                X
+                삭제
               </DeleteBtn>
             </MemoWrapper>
           );
